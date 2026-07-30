@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vakeel Mitra — तहसील अधिवक्ता कार्य-प्रबंधन</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="img/logo.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- ======== SIDEBAR ======== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo"><img src="img/logo.svg" alt="Vakeel Mitra" width="40" height="40"></div>
+      <div>
+        <div class="brand-name">Vakeel Mitra</div>
+        <div class="brand-sub">तहसील अधिवक्ता प्रणाली</div>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#/dashboard" class="nav-link" data-route="dashboard"><span class="nav-ico">🏠</span> डैशबोर्ड</a>
+      <a href="#/services" class="nav-link" data-route="services"><span class="nav-ico">📋</span> सेवा सूची</a>
+      <a href="#/cases" class="nav-link" data-route="cases"><span class="nav-ico">📁</span> मामले</a>
+      <a href="#/clients" class="nav-link" data-route="clients"><span class="nav-ico">👥</span> पक्षकार</a>
+      <a href="#/diary" class="nav-link" data-route="diary"><span class="nav-ico">📅</span> पेशी डायरी</a>
+      <a href="#/fees" class="nav-link" data-route="fees"><span class="nav-ico">₹</span> फीस लेजर</a>
+      <a href="#/documents" class="nav-link" data-route="documents"><span class="nav-ico">📝</span> दस्तावेज़</a>
+      <a href="#/links" class="nav-link" data-route="links"><span class="nav-ico">🔗</span> उपयोगी लिंक</a>
+      <a href="#/settings" class="nav-link" data-route="settings"><span class="nav-ico">⚙️</span> सेटिंग / बैकअप</a>
+    </nav>
+    <div class="sidebar-foot">
+      <div id="advocate-name-side"></div>
+      <div class="muted small">डेटा इसी कंप्यूटर के ब्राउज़र में सुरक्षित रहता है</div>
+    </div>
+  </aside>
+  <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+  <!-- ======== MAIN ======== -->
+  <div class="main">
+    <header class="topbar">
+      <button class="hamburger" id="hamburger" title="मेन्यू">☰</button>
+      <div class="topbar-title" id="page-title">डैशबोर्ड</div>
+      <div class="topbar-right">
+        <input type="search" id="global-search" placeholder="सेवा / मामला / पक्षकार खोजें…">
+        <button class="btn btn-accent" id="quick-new-case">+ नया केस</button>
+      </div>
+    </header>
+    <main id="view" class="view"></main>
+  </div>
+
+  <!-- ======== MOBILE BOTTOM NAV ======== -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <a href="#/dashboard" class="bn-item nav-link" data-route="dashboard"><span class="bn-ico">🏠</span><span>होम</span></a>
+    <a href="#/cases" class="bn-item nav-link" data-route="cases"><span class="bn-ico">📁</span><span>मामले</span></a>
+    <a href="#/documents" class="bn-item nav-link" data-route="documents"><span class="bn-ico">📝</span><span>दस्तावेज़</span></a>
+    <a href="#/services" class="bn-item nav-link" data-route="services"><span class="bn-ico">📋</span><span>सेवाएँ</span></a>
+    <a href="#/diary" class="bn-item nav-link" data-route="diary"><span class="bn-ico">📅</span><span>डायरी</span></a>
+  </nav>
+</div>
+
+<!-- ======== MODAL ======== -->
+<div class="modal-backdrop" id="modal-backdrop" hidden>
+  <div class="modal" id="modal">
+    <div class="modal-head">
+      <div class="modal-title" id="modal-title"></div>
+      <button class="modal-close" id="modal-close">✕</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- ======== PRINT AREA ======== -->
+<div id="print-area" class="print-area"></div>
+
+<div id="toast" class="toast" hidden></div>
+
+<script src="js/data.js"></script>
+<script src="js/templates.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Vakeel Mitra">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0d1442"/>
+      <stop offset="1" stop-color="#070a24"/>
+    </linearGradient>
+    <linearGradient id="blueArm" x1="60" y1="90" x2="256" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3b63ff"/>
+      <stop offset="1" stop-color="#1d3fd0"/>
+    </linearGradient>
+    <linearGradient id="tealArm" x1="452" y1="90" x2="256" y2="430" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#37e0d4"/>
+      <stop offset="1" stop-color="#159e93"/>
+    </linearGradient>
+    <linearGradient id="postGrad" x1="256" y1="70" x2="256" y2="440" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dfe4f5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- badge -->
+  <rect x="0" y="0" width="512" height="512" rx="108" fill="url(#bg)"/>
+
+  <!-- left arm (V) -->
+  <path d="M84 96 L226 96 L286 430 L204 430 Z" fill="url(#blueArm)"/>
+  <!-- right arm (M) -->
+  <path d="M428 96 L286 96 L226 430 L308 430 Z" fill="url(#tealArm)"/>
+
+  <!-- center post (scale stand) -->
+  <rect x="242" y="74" width="26" height="366" rx="13" fill="url(#postGrad)" transform="rotate(-4 255 257)"/>
+  <circle cx="255" cy="86" r="15" fill="#ffffff"/>
+
+  <!-- balance beam -->
+  <rect x="150" y="196" width="212" height="14" rx="7" fill="#ffffff" transform="rotate(-4 256 203)"/>
+
+  <!-- left scale pan -->
+  <g transform="rotate(-4 256 203)">
+    <path d="M158 214 L112 214 L106 210" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M96 214 Q135 268 174 214 Z" fill="none" stroke="#ffffff" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+  <!-- right scale pan -->
+  <g transform="rotate(-4 256 203)">
+    <path d="M354 214 L400 214 L406 210" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M338 214 Q377 268 416 214 Z" fill="none" stroke="#ffffff" stroke-width="10" stroke-linejoin="round" stroke-linecap="round"/>
+  </g>
+
+  <!-- base -->
+  <rect x="196" y="424" width="120" height="18" rx="9" fill="url(#postGrad)"/>
+</svg>
