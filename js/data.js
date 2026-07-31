@@ -400,8 +400,8 @@ const USEFUL_LINKS = [
     desc: "भूमि का डिजिटल नक्शा एवं खसरा विवरण"
   },
   {
-    name: "ई-डिस्ट्रिक्ट छत्तीसगढ़",
-    url: "https://edistrict.cgstate.gov.in/",
+    name: "सेवा सेतु",
+    url: "https://sewasetu.cgstate.gov.in/home?lang=hi",
     desc: "जाति, आय, निवास सहित विभिन्न प्रमाण-पत्रों के ऑनलाइन आवेदन"
   },
   {
