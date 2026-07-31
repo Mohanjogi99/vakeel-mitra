@@ -93,6 +93,7 @@ const TITLES = {
 };
 
 function route() {
+  clearInterval(heroTimer);
   const hash = location.hash.replace(/^#\//, "") || "dashboard";
   const [page, param] = hash.split("/");
   $$(".nav-link").forEach(a => a.classList.toggle("active", a.dataset.route === page));
@@ -132,9 +133,10 @@ function renderDashboard(el) {
   const adv = store.settings.advocateName;
 
   el.innerHTML = `
-    ${adv ? "" : `<div class="card" style="border-left:4px solid var(--accent)">
+    ${adv ? "" : `<div class="card" style="border-left:4px solid var(--saffron)">
       <b>नमस्ते!</b> पहले <a href="#/settings">सेटिंग</a> में अपना नाम व कार्यालय विवरण भर लें — यह दस्तावेज़ों में स्वतः उपयोग होगा।
     </div>`}
+    ${heroSliderHTML()}
     <div class="stat-grid">
       <div class="stat" onclick="location.hash='#/cases'"><div class="num">${store.cases.length}</div><div class="lbl">कुल प्रकरण</div></div>
       <div class="stat good" onclick="location.hash='#/cases'"><div class="num">${active.length}</div><div class="lbl">चालू प्रकरण</div></div>
@@ -170,9 +172,66 @@ function renderDashboard(el) {
       ${store.cases.length ? caseTable(store.cases.slice().sort((a, b) => (b.createdAt || "").localeCompare(a.createdAt || "")).slice(0, 8)) : `<div class="empty"><span class="big">📁</span>अभी कोई प्रकरण दर्ज नहीं है। "+ नया प्रकरण" से शुरू करें।</div>`}
     </div>
 
-    <div class="card small muted mb0" style="border-left:4px solid var(--brand-2)">
+    <div class="card small muted mb0" style="border-left:4px solid var(--navy)">
       <b>ध्यान रखने योग्य:</b> ${esc(JURISDICTION_NOTE)}
     </div>`;
+  initHeroSlider();
+}
+
+/* ---------- Hero slider (dashboard) ---------- */
+const HERO_SLIDES = [
+  { ico: "📋", title: "243 सेवाओं की सूची", text: "भूमि-राजस्व से लेकर RTI तक — कोई भी कार्य खोजें और सीधे नया प्रकरण दर्ज करें।", cta: "सेवा सूची देखें", href: "#/services" },
+  { ico: "📝", title: "13 तैयार दस्तावेज़ टेम्पलेट", text: "शपथ-पत्र, नोटिस, वकालतनामा, इकरारनामा — भरें और तुरंत प्रिंट करें।", cta: "दस्तावेज़ बनाएँ", href: "#/documents" },
+  { ico: "📅", title: "पेशी डायरी", text: "कोई भी तारीख न चूकें — आज और आगामी सभी पेशियाँ एक ही जगह।", cta: "डायरी देखें", href: "#/diary" },
+  { ico: "₹", title: "फीस लेजर", text: "हर प्रकरण की तय फीस, प्राप्ति और बकाया राशि आसानी से ट्रैक करें।", cta: "फीस लेजर खोलें", href: "#/fees" },
+  { ico: "💾", title: "अपना डेटा सुरक्षित रखें", text: "डेटा सिर्फ आपके ब्राउज़र में रहता है — नियमित रूप से बैकअप डाउनलोड करें।", cta: "बैकअप करें", href: "#/settings" }
+];
+let heroTimer = null;
+
+function heroSliderHTML() {
+  return `<div class="hero-slider" id="hero-slider">
+    <div class="hero-track" id="hero-track">
+      ${HERO_SLIDES.map(s => `
+        <div class="hero-slide">
+          <div class="hero-ico">${s.ico}</div>
+          <div class="hero-text">
+            <h3>${esc(s.title)}</h3>
+            <p>${esc(s.text)}</p>
+            <button class="btn-hero" data-hero-href="${s.href}">${esc(s.cta)} →</button>
+          </div>
+        </div>`).join("")}
+    </div>
+    <button class="hero-arrow prev" id="hero-prev" aria-label="पिछला">‹</button>
+    <button class="hero-arrow next" id="hero-next" aria-label="अगला">›</button>
+    <div class="hero-dots" id="hero-dots">
+      ${HERO_SLIDES.map((_, i) => `<button class="hero-dot ${i === 0 ? "active" : ""}" data-dot="${i}" aria-label="स्लाइड ${i + 1}"></button>`).join("")}
+    </div>
+  </div>`;
+}
+
+function initHeroSlider() {
+  const track = $("#hero-track");
+  if (!track) return;
+  const dots = $$(".hero-dot");
+  const total = HERO_SLIDES.length;
+  let idx = 0;
+
+  function goTo(i) {
+    idx = (i + total) % total;
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    dots.forEach((d, di) => d.classList.toggle("active", di === idx));
+  }
+  function resetTimer() {
+    clearInterval(heroTimer);
+    heroTimer = setInterval(() => goTo(idx + 1), 5000);
+  }
+  $("#hero-next").addEventListener("click", () => { goTo(idx + 1); resetTimer(); });
+  $("#hero-prev").addEventListener("click", () => { goTo(idx - 1); resetTimer(); });
+  dots.forEach(d => d.addEventListener("click", () => { goTo(Number(d.dataset.dot)); resetTimer(); }));
+  $$("[data-hero-href]").forEach(btn => btn.addEventListener("click", () => { location.hash = btn.dataset.heroHref; }));
+  $("#hero-slider").addEventListener("mouseenter", () => clearInterval(heroTimer));
+  $("#hero-slider").addEventListener("mouseleave", resetTimer);
+  resetTimer();
 }
 
 function caseMiniTable(list) {
