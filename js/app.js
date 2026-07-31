@@ -115,6 +115,9 @@ function route() {
     default:          renderDashboard(view);
   }
   view.scrollTop = 0; window.scrollTo(0, 0);
+  view.classList.remove("page-enter");
+  void view.offsetWidth;
+  view.classList.add("page-enter");
 }
 window.addEventListener("hashchange", route);
 
