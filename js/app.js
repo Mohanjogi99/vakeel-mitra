@@ -178,24 +178,33 @@ function renderDashboard(el) {
   initHeroSlider();
 }
 
-/* ---------- Hero slider (dashboard) ---------- */
-const HERO_SLIDES = [
-  { ico: "📋", title: "243 सेवाओं की सूची", text: "भूमि-राजस्व से लेकर RTI तक — कोई भी कार्य खोजें और सीधे नया प्रकरण दर्ज करें।", cta: "सेवा सूची देखें", href: "#/services" },
-  { ico: "📝", title: "13 तैयार दस्तावेज़ टेम्पलेट", text: "शपथ-पत्र, नोटिस, वकालतनामा, इकरारनामा — भरें और तुरंत प्रिंट करें।", cta: "दस्तावेज़ बनाएँ", href: "#/documents" },
-  { ico: "📅", title: "पेशी डायरी", text: "कोई भी तारीख न चूकें — आज और आगामी सभी पेशियाँ एक ही जगह।", cta: "डायरी देखें", href: "#/diary" },
-  { ico: "₹", title: "फीस लेजर", text: "हर प्रकरण की तय फीस, प्राप्ति और बकाया राशि आसानी से ट्रैक करें।", cta: "फीस लेजर खोलें", href: "#/fees" },
-  { ico: "💾", title: "अपना डेटा सुरक्षित रखें", text: "डेटा सिर्फ आपके ब्राउज़र में रहता है — नियमित रूप से बैकअप डाउनलोड करें।", cta: "बैकअप करें", href: "#/settings" }
-];
+/* ---------- Hero slider (dashboard) — service categories showcase ---------- */
 let heroTimer = null;
 
+function heroSlides() {
+  const totalItems = SERVICE_CATEGORIES.reduce((s, c) => s + c.items.length, 0);
+  const intro = {
+    ico: "⚖️", title: "सेवाओं की पूरी सूची", cat: null, count: totalItems,
+    text: "13 श्रेणियों में भूमि-राजस्व से लेकर RTI तक — नीचे झलक देखें या सीधे सेवा सूची खोलें।",
+    cta: "पूरी सेवा सूची देखें", href: "#/services"
+  };
+  const catSlides = SERVICE_CATEGORIES.map(cat => ({
+    ico: cat.icon, title: cat.name, cat: cat.id, count: cat.items.length,
+    text: `${cat.items.length} कार्य उपलब्ध — जैसे: ${cat.items.slice(0, 3).join(", ")}${cat.items.length > 3 ? " आदि" : ""}`,
+    cta: "इस श्रेणी में देखें", href: "#/services"
+  }));
+  return [intro, ...catSlides];
+}
+
 function heroSliderHTML() {
+  const slides = heroSlides();
   return `<div class="hero-slider" id="hero-slider">
     <div class="hero-track" id="hero-track">
-      ${HERO_SLIDES.map(s => `
+      ${slides.map(s => `
         <div class="hero-slide">
           <div class="hero-ico">${s.ico}</div>
           <div class="hero-text">
-            <h3>${esc(s.title)}</h3>
+            <h3>${esc(s.title)} <span class="hero-count">${s.count}</span></h3>
             <p>${esc(s.text)}</p>
             <button class="btn-hero" data-hero-href="${s.href}">${esc(s.cta)} →</button>
           </div>
@@ -204,7 +213,7 @@ function heroSliderHTML() {
     <button class="hero-arrow prev" id="hero-prev" aria-label="पिछला">‹</button>
     <button class="hero-arrow next" id="hero-next" aria-label="अगला">›</button>
     <div class="hero-dots" id="hero-dots">
-      ${HERO_SLIDES.map((_, i) => `<button class="hero-dot ${i === 0 ? "active" : ""}" data-dot="${i}" aria-label="स्लाइड ${i + 1}"></button>`).join("")}
+      ${slides.map((_, i) => `<button class="hero-dot ${i === 0 ? "active" : ""}" data-dot="${i}" aria-label="स्लाइड ${i + 1}"></button>`).join("")}
     </div>
   </div>`;
 }
@@ -213,7 +222,7 @@ function initHeroSlider() {
   const track = $("#hero-track");
   if (!track) return;
   const dots = $$(".hero-dot");
-  const total = HERO_SLIDES.length;
+  const total = heroSlides().length;
   let idx = 0;
 
   function goTo(i) {
